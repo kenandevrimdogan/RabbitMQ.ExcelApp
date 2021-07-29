@@ -24,6 +24,6 @@ namespace RabbitMQ.ExcelApp.UI.Web.Models
         public FileStatus FileStatus { get; set; }
 
         [NotMapped]
-        public string GetCreatedDate => CreatedDate.HasValue ? CreatedDate.Value.ToShortDateString() : "";
+        public string GetCreatedDate => CreatedDate.HasValue ? CreatedDate.Value.ToShortDateString() : "-";
     }
 }
