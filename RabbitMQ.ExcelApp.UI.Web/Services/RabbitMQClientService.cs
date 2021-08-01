@@ -9,9 +9,9 @@ namespace RabbitMQ.ExcelApp.UI.Web.Services
         private readonly ConnectionFactory _connectionFactory;
         private IConnection _connection;
         private IModel _channel;
-        private static readonly string ExchangeName = "ExcelDirectExchange";
-        private static readonly string RoutingExcelName = "excel-route-file";
-        private static readonly string QueueName = "excel-watermark-file";
+        public static readonly string ExchangeName = "ExcelDirectExchange";
+        public static readonly string RoutingExcelName = "excel-route-file";
+        private static readonly string QueueName = "queue-excel-file";
 
         private readonly ILogger<RabbitMQClientService> _logger;
 

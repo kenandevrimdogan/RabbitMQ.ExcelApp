@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.ExcelApp.Shared;
 using RabbitMQ.ExcelApp.UI.Web.Models;
+using RabbitMQ.ExcelApp.UI.Web.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,11 +16,13 @@ namespace RabbitMQ.ExcelApp.UI.Web.Controllers
     {
         private readonly AppDbContext _appDBContext;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RabbitMQPublisher _rabbitMQPublisher;
 
-        public ProductController(AppDbContext appDBContext, UserManager<IdentityUser> userManager)
+        public ProductController(AppDbContext appDBContext, UserManager<IdentityUser> userManager, RabbitMQPublisher rabbitMQPublisher)
         {
             _appDBContext = appDBContext;
             _userManager = userManager;
+            _rabbitMQPublisher = rabbitMQPublisher;
         }
 
         public IActionResult Index()
@@ -41,7 +45,12 @@ namespace RabbitMQ.ExcelApp.UI.Web.Controllers
             await _appDBContext.UserFiles.AddAsync(userFile);
             await _appDBContext.SaveChangesAsync();
 
-            TempData["StartCreatingExcel"] = true;
+            var crateExcelMessage = new CrateExcelMessage() { 
+                FileId = userFile.Id,
+                UserId = user.Id
+            };
+
+            _rabbitMQPublisher.Publish(crateExcelMessage);
 
             return RedirectToAction(nameof(Files));
         }

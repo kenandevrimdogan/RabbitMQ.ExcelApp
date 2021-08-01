@@ -19,4 +19,8 @@
     <Folder Include="wwwroot\files\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RabbitMQ.ExcelApp.Shared\RabbitMQ.ExcelApp.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
