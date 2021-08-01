@@ -47,7 +47,6 @@ namespace RabbitMQ.ExcelApp.UI.Web.Controllers
 
             var crateExcelMessage = new CrateExcelMessage() { 
                 FileId = userFile.Id,
-                UserId = user.Id
             };
 
             _rabbitMQPublisher.Publish(crateExcelMessage);
