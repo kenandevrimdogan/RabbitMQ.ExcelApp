@@ -1,5 +1,22 @@
 ﻿@model List<UserFile>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var hasStartCreatingExcel = '@TempData["StartCreatingExcel"]';
 
+            if (hasStartCreatingExcel) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Excel File is Creating',
+                    timer: 2500,
+                    showConfirmButton: false,
+                })
+            }
+        });
+    </script>
+}
 <table class="table table-striped">
     <thead>
         <tr>

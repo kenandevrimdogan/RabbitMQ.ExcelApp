@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
+using RabbitMQ.ExcelApp.UI.Web.Hubs;
 using RabbitMQ.ExcelApp.UI.Web.Models;
 using RabbitMQ.ExcelApp.UI.Web.Services;
 using System;
@@ -44,6 +45,7 @@ namespace RabbitMQ.ExcelApp.UI.Web
             }).AddEntityFrameworkStores<AppDbContext>();
 
             services.AddControllersWithViews();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +70,8 @@ namespace RabbitMQ.ExcelApp.UI.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<MyHub>("/MyHub");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -9,7 +9,7 @@ namespace RabbitMQ.ExcelApp.WS.FileCreateWorkerService.Services
         private readonly ConnectionFactory _connectionFactory;
         private IConnection _connection;
         private IModel _channel;
-        private static readonly string QueueName = "queue-excel-file";
+        public static readonly string QueueName = "queue-excel-file";
 
         private readonly ILogger<RabbitMQClientService> _logger;
 

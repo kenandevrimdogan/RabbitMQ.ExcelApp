@@ -36,7 +36,7 @@ namespace RabbitMQ.ExcelApp.WS.FileCreateWorkerService
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _rabbitMQClientService.Connect();
+            _channel = _rabbitMQClientService.Connect();
             _channel.BasicQos(0, 1, false);
 
             return base.StartAsync(cancellationToken);
@@ -45,6 +45,7 @@ namespace RabbitMQ.ExcelApp.WS.FileCreateWorkerService
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var consumer = new AsyncEventingBasicConsumer(_channel);
+            _channel.BasicConsume(RabbitMQClientService.QueueName, false, consumer);
             consumer.Received += Consumer_Received;
 
             return Task.CompletedTask;

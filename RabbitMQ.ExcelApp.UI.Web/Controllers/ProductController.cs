@@ -45,12 +45,14 @@ namespace RabbitMQ.ExcelApp.UI.Web.Controllers
             await _appDBContext.UserFiles.AddAsync(userFile);
             await _appDBContext.SaveChangesAsync();
 
-            var crateExcelMessage = new CrateExcelMessage() { 
+            var crateExcelMessage = new CrateExcelMessage()
+            {
                 FileId = userFile.Id,
             };
 
             _rabbitMQPublisher.Publish(crateExcelMessage);
 
+            TempData["StartCreatingExcel"] = true;
             return RedirectToAction(nameof(Files));
         }
 
@@ -58,7 +60,7 @@ namespace RabbitMQ.ExcelApp.UI.Web.Controllers
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            return View(await _appDBContext.UserFiles.Where(x => x.UserId == user.Id).ToListAsync());
+            return View(await _appDBContext.UserFiles.Where(x => x.UserId == user.Id).OrderByDescending(x => x.Id).ToListAsync());
         }
     }
 }
